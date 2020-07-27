@@ -12,37 +12,37 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="pin-generator half-width">
-                    <input class="form-control" type="text">
-                    <button class="generate-btn">Generate Pin</button>
+                    <input id="show-generated-pin" class="form-control" type="text">
+                    <button id="pin-generate-button" class="generate-btn">Generate Pin</button>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-section half-width">
-                    <input class="form-control" type="text">
+                    <input id="input-pin-number" class="form-control" type="text">
                     <div class="numbers">
                         <div class="calc-body">
                             <div class="calc-button-row">
-                              <div class="button">7</div>
-                              <div class="button">8</div>
-                              <div class="button">9</div>
+                              <div class="button" onclick="clickToSatInputValue(7);">7</div>
+                              <div class="button" onclick="clickToSatInputValue(8)">8</div>
+                              <div class="button" onclick="clickToSatInputValue(9)">9</div>
                             </div>
                             <div class="calc-button-row">
-                              <div class="button">4</div>
-                              <div class="button">5</div>
-                              <div class="button">6</div>
+                              <div class="button" onclick="clickToSatInputValue(4)">4</div>
+                              <div class="button" onclick="clickToSatInputValue(5)">5</div>
+                              <div class="button" onclick="clickToSatInputValue(6)">6</div>
                             </div>
                             <div class="calc-button-row">
-                              <div class="button">1</div>
-                              <div class="button">2</div>
-                              <div class="button">3</div>
+                              <div class="button" onclick="clickToSatInputValue(1)">1</div>
+                              <div class="button" onclick="clickToSatInputValue(2)">2</div>
+                              <div class="button" onclick="clickToSatInputValue(3)">3</div>
                             </div>
                             <div class="calc-button-row">
-                                <div class="button"><</div>
-                                <div class="button">0</div>
-                                <div class="button">C</div>
+                                <div class="button" onclick=""><</div>
+                                <div class="button" onclick="clickToSatInputValue(0)">0</div>
+                                <div class="button" onclick="">C</div>
                             </div>
                             <div>
-                                <button type="submit" class="submit-btn">Submit</button>
+                                <button id="submit-button" type="submit" class="submit-btn">Submit</button>
                                 <p class="action-left">3 try left</p>
                             </div>
                     </div>
@@ -50,9 +50,63 @@
             </div>
         </div>
         <div class="notify-section">
-            <p class="notify">❌ Pin Didn't Match, Please try again</p>
-            <p class="notify">✅ Pin Matched... Secret door is opening for you</p>
+            <p class="notify" id="red-notify-item">❌ Pin Didn't Match, Please try again</p>
+            <p class="notify" id="green-notify-item">✅ Pin Matched... Secret door is opening for you</p>
         </div>
     </div>
+
+
+    <script>
+    // creating a function to set any display style in a id ....
+
+        function hundelNotification (id, displayValue){
+            const notifyItem = document.getElementById(id);
+            notifyItem.style.display = displayValue;
+        }
+
+        hundelNotification("red-notify-item", "none");
+        hundelNotification("green-notify-item", "none");
+
+        // Generate Pin Number 
+
+        document.getElementById("pin-generate-button").addEventListener ("click", function(){
+            const pinGenerateNumber = 9999 - 1000 ;
+            const pinGenerate = Math.random ()*pinGenerateNumber;
+            pinGeenerateResult = Math.round (pinGenerate);
+
+            // if (pinGeenerateResult <= 999){
+            //    pinGeenerateResult = pinGeenerateResult*10;
+            // }
+
+            document.getElementById("show-generated-pin").value = pinGeenerateResult;
+        })
+
+        // creating a function to set input value
+    
+        function clickToSatInputValue(inputValue){
+            document.getElementById('input-pin-number').value += inputValue;
+        }
+
+        // if you click submit button and your generatoe pin is right, notify item will be show...
+
+        document.getElementById("submit-button").addEventListener("click", function(){
+             const inputValue = document.getElementById("input-pin-number").value
+
+             if(inputValue == pinGeenerateResult){
+                hundelNotification("green-notify-item", "block");
+             }
+             else{
+                hundelNotification("red-notify-item", "block");
+             }
+            //  if you click pin Generate Button again notify items will be heidden...
+
+             document.getElementById("pin-generate-button").addEventListener("click", function(){
+                hundelNotification("red-notify-item", "none");
+                hundelNotification("green-notify-item", "none");
+             })
+        })
+
+    </script>
+
 </body>
 </html>

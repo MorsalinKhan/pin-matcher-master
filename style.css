@@ -103,3 +103,11 @@ color: #E0B612;
     color: #FF3C5F;
     margin-top: 10px;
 }
+#show-generated-pin{
+    color: white;
+    text-align: center;
+}
+#input-pin-number{
+    color: white;
+    text-align: center;
+}
