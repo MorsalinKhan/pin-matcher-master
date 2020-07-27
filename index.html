@@ -37,9 +37,9 @@
                               <div class="button" onclick="clickToSatInputValue(3)">3</div>
                             </div>
                             <div class="calc-button-row">
-                                <div class="button" onclick="backSpace()"><</div>
+                                <div id="remove-last-number" class="button" onclick="removeLastNumber()"><</div>
                                 <div class="button" onclick="clickToSatInputValue(0)">0</div>
-                                <div class="button" onclick="deleteButton()">C</div>
+                                <div id="remove-all-number" class="button" onclick="removeAllNumber()">C</div>
                             </div>
                             <div>
                                 <button id="submit-button" type="submit" class="submit-btn">Submit</button>
@@ -55,17 +55,16 @@
         </div>
     </div>
 
-
     <script>
+
     // creating a function to set any display style in a id ....
 
-        function hundelNotification (id, displayValue){
+        function handleNotification (id, displayValue){
             const notifyItem = document.getElementById(id);
             notifyItem.style.display = displayValue;
         }
-
-        hundelNotification("red-notify-item", "none");
-        hundelNotification("green-notify-item", "none");
+        handleNotification("red-notify-item", "none");
+        handleNotification("green-notify-item", "none");
 
         // Generate Pin Number... 
 
@@ -77,46 +76,52 @@
             if (pinGeenerateResult < 1000){
                pinGeenerateResult = pinGenerateNumber;
             }
-
             document.getElementById("show-generated-pin").value = pinGeenerateResult;
         })
         
-        // creating a function to set input value...
+        // create a function to set input value of the number Button...
 
         function clickToSatInputValue(inputValue){
             document.getElementById('input-pin-number').value += inputValue;
         }
 
-        // creating a function to set backspace...
+        // create a function to remove the last number in the input value...
 
-        function backSpace(){
+        function removeLastNumber(){
             let preValue = document.getElementById('input-pin-number').value;
             document.getElementById('input-pin-number').value = preValue.substr(0, preValue.length -1);
         }
 
-        function deleteButton(){
+         // create a function to remove the All number in the input value...
+
+        function removeAllNumber(){
             document.getElementById('input-pin-number').value = "";
         }
 
-        // if you click submit button and your generatoe pin is right, notify item will be show...
+        // if you click submit button and your pin is right, then notify item automatic show...
 
         document.getElementById("submit-button").addEventListener("click", function(){
              const inputValue = document.getElementById('input-pin-number').value
 
              if(inputValue == pinGeenerateResult){
-                hundelNotification("green-notify-item", "block");
+                handleNotification("green-notify-item", "block");
              }
              else{
-                hundelNotification("red-notify-item", "block");
+                handleNotification("red-notify-item", "block");
              }
-             
-            //  if you click pin Generate Button again notify items will be heidden...
-
-             document.getElementById("pin-generate-button").addEventListener("click", function(){
-                hundelNotification("red-notify-item", "none");
-                hundelNotification("green-notify-item", "none");
-             })
         })
+
+        // if you click pin Generate button, remove last number(<) button and delete button(C) then the notify item automatic removed...
+
+        function removeNotifyItem(id){
+            document.getElementById(id).addEventListener("click", function(){
+                handleNotification("red-notify-item", "none");
+                handleNotification("green-notify-item", "none");
+             })
+        }
+        removeNotifyItem("pin-generate-button");
+        removeNotifyItem("remove-last-number");
+        removeNotifyItem("remove-all-number");
 
     </script>
 
