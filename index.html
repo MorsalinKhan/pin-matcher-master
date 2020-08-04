@@ -12,15 +12,15 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="pin-generator half-width">
-                    <input id="show-generated-pin" class="form-control" type="text">
+                    <input id="show-generated-pin" class="form-control" type="text" placeholder="Generate your pin">
                     <button id="pin-generate-button" class="generate-btn">Generate Pin</button>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="input-section half-width">
-                    <input id="input-pin-number" class="form-control" type="text">
+                    <input id="input-pin-number" class="form-control" type="text" placeholder="Enter your Pin">
                     <div class="numbers">
-                        <div class="calc-body">
+                        <div class="calc-body" id="clickTo-remove-notifyItem" >
                             <div class="calc-button-row">
                               <div class="button" onclick="clickToSatInputValue(7)">7</div>
                               <div class="button" onclick="clickToSatInputValue(8)">8</div>
@@ -43,8 +43,8 @@
                             </div>
                             <div>
                                 <button id="submit-button" type="submit" class="submit-btn">Submit</button>
-                                <p class="action-left">3 try left</p>
-                            </div>
+                                <p class="action-left"><span id="wrong-pin-try">3</span> try left</p>
+                         </div>
                     </div>
                 </div>
             </div>
@@ -98,17 +98,27 @@
             document.getElementById('input-pin-number').value = "";
         }
 
-        // if you click submit button and your pin is right, then notify item automatic show...
-
+        // if you click submit button and your pin is right, then notify item automatic show... and input wrong password 3 times then submit button is hidden
+        
         document.getElementById("submit-button").addEventListener("click", function(){
-             const inputValue = document.getElementById('input-pin-number').value
+              const inputValue = document.getElementById('input-pin-number').value;
 
              if(inputValue == pinGeenerateResult){
                 handleNotification("green-notify-item", "block");
              }
-             else{
+             else if(inputValue.length < 4 || inputValue.length > 4){
+                alert(" Please Enter 4 digit pin."); 
+             }
+             else if(inputValue !== pinGeenerateResult){
+                 let wrongPin = document.getElementById('wrong-pin-try');
+                 wrongPin.innerText = wrongPin.innerText -1 ;
+
+                 if (wrongPin.innerText == 0){
+                     handleNotification("submit-button", "none");
+                 } 
                 handleNotification("red-notify-item", "block");
              }
+            
         })
 
         // if you click pin Generate button, remove last number(<) button and delete button(C) then the notify item automatic removed...
@@ -123,7 +133,10 @@
         removeNotifyItem("remove-last-number");
         removeNotifyItem("remove-all-number");
 
-    </script>
+        
+        
+        
 
+    </script>
 </body>
 </html>
